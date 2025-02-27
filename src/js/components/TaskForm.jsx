@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 
 
+
 export function TaskForm(props) {
     
     const [ datosForm, setdatosForm ] = useState({name:""}) 
     const handleSubmit = (e) => {
-        e,preventDefault();
+        e.preventDefault();
     
         if (datosForm.name.trim() === "") {
             console.log("La tarea no puede estar vacía")
             return;
         }
-            alert ("Ha entrado en el submit")
         props.onAddTareas(datosForm.name);
     };
 
@@ -25,7 +25,7 @@ export function TaskForm(props) {
                             type="text"
                             id="taskTitle"
                             value={datosForm.name}
-                            onChange={(e) => setdatosForm({name:e.target.value})}
+                            onChange={(e) => setdatosForm(prevState => ({...prevState, name: e.target.value}))}
                             placeholder="Ej: Pasear la tortuga"
                         />
                     </div>

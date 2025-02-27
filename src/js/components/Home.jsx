@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {TaskForm} from "./TaskForm";
-import {TaskList} from "./TaskList";
+import { TaskForm } from "./TaskForm";
+import { TaskList } from "./TaskList";
+import "../../styles/index.css";
 
 
-function Home () {
+function Home() {
 	const [tarea, setTareas] = useState([])
 
 	const getTareas = async () => {
@@ -14,7 +15,7 @@ function Home () {
 
 			// 👉 Verificamos si la petición fue exitosa
 			if (!response.ok) {
-				throw new Error("¡Vaya! No hemos podido obtener los posts");
+				throw new Error("¡Vaya! No hemos podido obtener las tareas");
 			}
 
 			// 👉 Convertimos la respuesta a JSON
@@ -22,12 +23,13 @@ function Home () {
 			setTareas(data.todos)
 			console.log(data.todos)
 
+
 		} catch (error) {
 			console.log(error)
 		}
 	}
-	
-	useEffect (() => {
+
+	useEffect(() => {
 		getTareas();
 	}, []);
 
@@ -54,7 +56,7 @@ function Home () {
 			const data = await response.json()
 			console.log(data)
 
-			setTasks([...tasks, data]);
+			setTareas([...tarea, data]);
 
 		} catch (error) {
 			console.log(error)
@@ -73,22 +75,21 @@ function Home () {
 			if (!response.ok) {
 				throw new Error('Error al borrar la tarea');
 			}
+			setTareas(prevTareas => prevTareas.filter(tarea => tarea.id !== id));
 		} catch (error) {
 			console.log(error)
-
 		}
-
 	}
 
 	return (
-		<>
-			<div className="container">
-				<h1>Joder con la lista de tareas</h1>
-				<TaskForm onAddTareas={addTareas} />
-				<TaskList tarea={tarea} deleteTareas={deleteTareas} />
-			</div>
-		</>
-	);
+		<div className="container min-vh-100 d-flex justify-content-center align-items-center">
+		  <div className="card shadow-lg p-4 w-100" style={{ maxWidth: "500px" }}>
+			<h1>Lista de Tareas ✨</h1>
+			<TaskForm onAddTareas={addTareas} />
+			<TaskList tarea={tarea} deleteTareas={deleteTareas} />
+		  </div>
+		</div>
+	  );
 };
 
 
